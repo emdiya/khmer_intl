@@ -14,9 +14,10 @@ extension KhmerDateX on DateTime {
   String toKhmerRelativeTime({
     DateTime? reference,
     bool useKhmerDigits = false,
-  }) => KhmerRelativeTime.format(
-    this,
-    reference: reference,
-    useKhmerDigits: useKhmerDigits,
-  );
+  }) =>
+      KhmerRelativeTime.format(
+        this,
+        reference: reference,
+        useKhmerDigits: useKhmerDigits,
+      );
 }

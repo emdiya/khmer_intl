@@ -20,16 +20,16 @@ class KhmerLocalizations {
 
   String get appTitle =>
       locale.languageCode == 'km' ? 'ឧទាហរណ៍ khmer_intl' : 'khmer_intl demo';
-  String get dateFormatting => locale.languageCode == 'km'
-      ? 'ទ្រង់ទ្រាយកាលបរិច្ឆេទ'
-      : 'Date formatting';
+  String get dateFormatting =>
+      locale.languageCode == 'km' ? 'ទ្រង់ទ្រាយកាលបរិច្ឆេទ' : 'Date formatting';
   String get numberFormatting =>
       locale.languageCode == 'km' ? 'ទ្រង់ទ្រាយលេខ' : 'Number formatting';
   String get relativeTime =>
       locale.languageCode == 'km' ? 'ពេលវេលាទាក់ទង' : 'Relative time';
   String get plural => locale.languageCode == 'km' ? 'ពហុវចនៈ' : 'Plural';
-  String get lunar =>
-      locale.languageCode == 'km' ? 'ចន្ទគតិ (ប្រហាក់ប្រហែល)' : 'Lunar calendar';
+  String get lunar => locale.languageCode == 'km'
+      ? 'ចន្ទគតិ (ប្រហាក់ប្រហែល)'
+      : 'Lunar calendar';
 }
 
 class _KhmerLocalizationsDelegate

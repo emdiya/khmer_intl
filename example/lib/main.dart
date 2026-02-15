@@ -76,12 +76,14 @@ class _DemoPageState extends State<DemoPage> {
       buddhistEra: true,
       useKhmerDigits: true,
     );
-    final presetFullDate =
-        KhmerDateFormat.fullDate(buddhistEra: true, useKhmerDigits: true)
-            .format(now);
-    final presetFullDateTime =
-        KhmerDateFormat.fullDateTime(buddhistEra: true, useKhmerDigits: true)
-            .format(now);
+    final presetFullDate = KhmerDateFormat.fullDate(
+      buddhistEra: true,
+      useKhmerDigits: true,
+    ).format(now);
+    final presetFullDateTime = KhmerDateFormat.fullDateTime(
+      buddhistEra: true,
+      useKhmerDigits: true,
+    ).format(now);
 
     // Currency examples
     final moneyKhDigits = 2500.toKhmerCurrency(useKhmerDigits: true);

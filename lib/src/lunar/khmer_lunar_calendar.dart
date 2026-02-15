@@ -57,9 +57,7 @@ class KhmerLunarDate {
     final beYear = date.year + 543;
     final zodiac = _khmerZodiacYears[beYear % 12];
 
-    final safeDay = dayInCycle < 1
-        ? 1
-        : (dayInCycle > 30 ? 30 : dayInCycle);
+    final safeDay = dayInCycle < 1 ? 1 : (dayInCycle > 30 ? 30 : dayInCycle);
 
     return KhmerLunarDate(
       day: safeDay,
