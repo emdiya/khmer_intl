@@ -49,6 +49,22 @@ class KhmerDateFormat {
           useKhmerDigits: useKhmerDigits,
         );
 
+  KhmerDateFormat.dateTime({
+    bool buddhistEra = false,
+    bool useKhmerDigits = false,
+  }) : this(
+          KhmerDatePatterns.dateTime,
+          buddhistEra: buddhistEra,
+          useKhmerDigits: useKhmerDigits,
+        );
+
+  KhmerDateFormat.time({
+    bool useKhmerDigits = false,
+  }) : this(
+          KhmerDatePatterns.time,
+          useKhmerDigits: useKhmerDigits,
+        );
+
   String format(DateTime date) {
     var out = pattern;
 

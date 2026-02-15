@@ -31,4 +31,21 @@ extension KhmerNumX on num {
         locale: locale,
         useKhmerDigits: useKhmerDigits,
       ).format(this);
+
+  String toKhmerCompactCurrency({
+    bool useKhmerDigits = false,
+    bool khmerStyle = false,
+    String symbol = '៛',
+    bool symbolOnLeft = true,
+    bool spaceBetweenSymbol = true,
+    int fractionDigits = 1,
+  }) =>
+      KhmerNumberFormat.compactCurrency(
+        useKhmerDigits: useKhmerDigits,
+        khmerStyle: khmerStyle,
+        symbol: symbol,
+        symbolOnLeft: symbolOnLeft,
+        spaceBetweenSymbol: spaceBetweenSymbol,
+        fractionDigits: fractionDigits,
+      ).format(this);
 }

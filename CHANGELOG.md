@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 
 The format follows Keep a Changelog style and is adapted for pub.dev package releases.
 
+## 0.1.1 - 2026-02-15
+
+### Added
+
+- `KhmerPlural.of(...)` with `{count}` template replacement.
+- `KhmerNumberFormat.compactCurrency(...)` for financial compact output:
+  - `៛ 1.2M`
+  - `៛ ១.២លាន`
+- `KhmerDateFormat.dateTime()` preset constructor.
+- `KhmerDateFormat.time()` preset constructor.
+- Improved `KhmerRelativeTime.format(...)` phrases:
+  - `ឥឡូវនេះ`
+  - `ម្សិលមិញ`
+  - `មុន 5 ថ្ងៃ`
+- Number to Khmer words conversion:
+  - `numberToKhmerWords(1250)` -> `មួយពាន់ពីររយហាសិប`
+  - `int.toKhmerWords()`
+- Documentation and example updates:
+  - Updated `README.md` with new APIs and examples
+  - Updated `example/README.md` with feature guide and outputs
+  - Updated example app (`example/lib/main.dart`) to show new features
+
 ## 0.1.0 - 2026-02-15
 
 ### Added

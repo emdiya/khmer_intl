@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:khmer_intl/khmer_intl.dart';
+
+import 'khmer_localizations.dart';
 
 void main() => runApp(const App());
 
@@ -11,6 +14,13 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'khmer_intl demo',
       theme: ThemeData(useMaterial3: true),
+      localizationsDelegates: const [
+        KhmerLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: KhmerLocalizations.supportedLocales,
       home: const DemoPage(),
     );
   }
@@ -94,19 +104,53 @@ class _DemoPageState extends State<DemoPage> {
 
     // Extension demo
     final extensionDigits = 1234567890.toKhmerDigits();
+    final stringToKhmer = '123'.toKhmerDigits();
+    final stringToLatin = '១២៣'.toLatinDigits();
     final compact = 1250000.toKhmerCompact(useKhmerDigits: true);
+    final compactFactory = KhmerNumberFormat.compact(
+      useKhmerDigits: true,
+    ).format(1200);
+    final compactCurrencyLatin = KhmerNumberFormat.compactCurrency().format(
+      1200000,
+    );
+    final compactCurrencyKhmer = KhmerNumberFormat.compactCurrency(
+      khmerStyle: true,
+      useKhmerDigits: true,
+    ).format(1200000);
     final percent = 0.275.toKhmerPercent(
       useKhmerDigits: true,
       fractionDigits: 1,
     );
+    final percentFactory = KhmerNumberFormat.percent(
+      useKhmerDigits: true,
+    ).format(0.25);
+    final presetDateTime = KhmerDateFormat.dateTime(
+      useKhmerDigits: true,
+    ).format(now);
+    final presetTime = KhmerDateFormat.time(useKhmerDigits: true).format(now);
     final relative = now
         .subtract(const Duration(hours: 2))
         .toKhmerRelativeTime(reference: now, useKhmerDigits: true);
+    final relativeNow = KhmerRelativeTime.format(now, reference: now);
+    final relativeYesterday = KhmerRelativeTime.format(
+      now.subtract(const Duration(days: 1)),
+      reference: now,
+    );
+    final relativeFiveDays = KhmerRelativeTime.format(
+      now.subtract(const Duration(days: 5)),
+      reference: now,
+    );
     final pluralText = khmerPlural(
       2,
       one: 'មានទំនិញ 1 មុខ',
       other: 'មានទំនិញ 2 មុខ',
     );
+    final pluralOfText = KhmerPlural.of(
+      count: 2,
+      one: '{count} ឯកតា',
+      other: '{count} ឯកតា',
+    );
+    final numberWords = 1250.toKhmerWords();
     final lunar = KhmerLunarDate.fromGregorian(now).toString().toKhmerDigits();
 
     return Scaffold(
@@ -149,6 +193,8 @@ class _DemoPageState extends State<DemoPage> {
               _RowItem(label: 'Extension (int)', value: extensionDigits),
               _RowItem(label: 'Function (String)', value: _convertedDigits),
               _RowItem(label: 'Back to Latin', value: _convertedBackToLatin),
+              _RowItem(label: '\'123\' -> Khmer', value: stringToKhmer),
+              _RowItem(label: '\'១២៣\' -> Latin', value: stringToLatin),
             ],
           ),
           const SizedBox(height: 12),
@@ -181,14 +227,37 @@ class _DemoPageState extends State<DemoPage> {
           _InfoCard(
             rows: [
               _RowItem(label: 'Compact', value: compact),
+              _RowItem(
+                label: 'KhmerNumberFormat.compact()',
+                value: compactFactory,
+              ),
+              _RowItem(
+                label: 'Compact currency (Latin)',
+                value: compactCurrencyLatin,
+              ),
+              _RowItem(
+                label: 'Compact currency (Khmer)',
+                value: compactCurrencyKhmer,
+              ),
               _RowItem(label: 'Percent', value: percent),
+              _RowItem(
+                label: 'KhmerNumberFormat.percent()',
+                value: percentFactory,
+              ),
               _RowItem(label: 'Preset fullDate()', value: presetFullDate),
               _RowItem(
                 label: 'Preset fullDateTime()',
                 value: presetFullDateTime,
               ),
+              _RowItem(label: 'Preset dateTime()', value: presetDateTime),
+              _RowItem(label: 'Preset time()', value: presetTime),
               _RowItem(label: 'Relative (2h ago)', value: relative),
+              _RowItem(label: 'Relative (now)', value: relativeNow),
+              _RowItem(label: 'Relative (yesterday)', value: relativeYesterday),
+              _RowItem(label: 'Relative (5 days)', value: relativeFiveDays),
               _RowItem(label: 'Plural', value: pluralText),
+              _RowItem(label: 'KhmerPlural.of()', value: pluralOfText),
+              _RowItem(label: '1250 in Khmer words', value: numberWords),
               _RowItem(label: 'Lunar (approx)', value: lunar),
             ],
           ),

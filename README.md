@@ -8,7 +8,7 @@ Khmer (`km`) internationalization helpers for Dart and Flutter.
 
 <p align="center">
   <img src="example/assets/preview_1.png" alt="Preview 1" width="48%" />
-  <img src="example/assets/previrew_2.png" alt="Preview 2" width="48%" />
+  <img src="example/assets/preview_2.png" alt="Preview 2" width="48%" />
 </p>
 
 ## Features
@@ -17,20 +17,23 @@ Khmer (`km`) internationalization helpers for Dart and Flutter.
 - Khmer digit -> Latin digit conversion
 - Number formatting and KHR currency formatting (`៛`)
 - Compact number formatting (e.g. `1.3លាន`)
+- Compact currency formatting (e.g. `៛ 1.2M`, `៛ ១.២លាន`)
 - Percent formatting
 - Khmer date formatting with month/weekday names
 - Buddhist Era year option (`AD + 543`)
-- Date preset constructors (`shortDate`, `mediumDate`, `fullDate`, `fullDateTime`)
+- Date preset constructors (`shortDate`, `mediumDate`, `fullDate`, `fullDateTime`, `dateTime`, `time`)
 - Khmer relative time (e.g. `២ ម៉ោងមុន`)
 - Simple plural helper
+- Structured plural helper with templates (`KhmerPlural.of`)
 - Approximate Khmer lunar date model
+- Number-to-Khmer words conversion (`1250` -> `មួយពាន់ពីររយហាសិប`)
 - Extension methods for `int`, `num`, `String`, and `DateTime`
 
 ## Installation
 
 ```yaml
 dependencies:
-  khmer_intl: ^0.1.0
+  khmer_intl: ^0.1.1
 ```
 
 Then run:
@@ -57,8 +60,11 @@ import 'package:khmer_intl/khmer_intl.dart';
 toKhmerDigits('1234567890');
 // ១២៣៤៥៦៧៨៩០
 
-'២០២៦'.toLatinDigits();
-// 2026
+'123'.toKhmerDigits();
+// ១២៣
+
+'១២៣'.toLatinDigits();
+// 123
 ```
 
 ### Number and Currency
@@ -72,6 +78,15 @@ toKhmerDigits('1234567890');
 
 0.275.toKhmerPercent(useKhmerDigits: true, fractionDigits: 1);
 // ២៧.៥%
+
+KhmerNumberFormat.compactCurrency().format(1200000);
+// ៛ 1.2M
+
+KhmerNumberFormat.compactCurrency(
+  khmerStyle: true,
+  useKhmerDigits: true,
+).format(1200000);
+// ៛ ១.២លាន
 ```
 
 ### Date Formatting
@@ -85,6 +100,8 @@ KhmerDateFormat('EEE dd MMMM yyyy', buddhistEra: true, useKhmerDigits: true)
 
 KhmerDateFormat.fullDate(buddhistEra: true, useKhmerDigits: true).format(date);
 KhmerDateFormat.fullDateTime(useKhmerDigits: true).format(DateTime.now());
+KhmerDateFormat.dateTime(useKhmerDigits: true).format(DateTime.now());
+KhmerDateFormat.time(useKhmerDigits: true).format(DateTime.now());
 ```
 
 ### Relative Time
@@ -95,6 +112,15 @@ final past = now.subtract(const Duration(hours: 2));
 
 past.toKhmerRelativeTime(reference: now, useKhmerDigits: true);
 // ២ ម៉ោងមុន
+
+KhmerRelativeTime.format(now, reference: now);
+// ឥឡូវនេះ
+
+KhmerRelativeTime.format(now.subtract(const Duration(days: 1)), reference: now);
+// ម្សិលមិញ
+
+KhmerRelativeTime.format(now.subtract(const Duration(days: 5)), reference: now);
+// មុន 5 ថ្ងៃ
 ```
 
 ### Plural Helper
@@ -105,6 +131,23 @@ khmerPlural(
   one: 'មានទំនិញ 1 មុខ',
   other: 'មានទំនិញ 2 មុខ',
 );
+
+KhmerPlural.of(
+  count: 2,
+  one: '{count} ឯកតា',
+  other: '{count} ឯកតា',
+);
+// 2 ឯកតា
+```
+
+### Number to Khmer Words
+
+```dart
+numberToKhmerWords(1250);
+// មួយពាន់ពីររយហាសិប
+
+1250.toKhmerWords();
+// មួយពាន់ពីររយហាសិប
 ```
 
 ### Lunar Date (Approximate)
@@ -126,6 +169,8 @@ print(lunar);
 
 - `KhmerNumberFormat.decimal(...)`
 - `KhmerNumberFormat.currencyKHR(...)`
+- `KhmerNumberFormat.compact(...)`
+- `KhmerNumberFormat.percent(...)`
 - `KhmerCompactNumberFormat(...)`
 - `KhmerPercentFormat(...)`
 - `KhmerDateFormat(pattern, ...)`
@@ -133,6 +178,8 @@ print(lunar);
 - `KhmerDateFormat.mediumDate(...)`
 - `KhmerDateFormat.fullDate(...)`
 - `KhmerDateFormat.fullDateTime(...)`
+- `KhmerDateFormat.dateTime(...)`
+- `KhmerDateFormat.time(...)`
 - `KhmerRelativeTime.format(...)`
 
 ### Extensions
@@ -152,6 +199,12 @@ A working Khmer `LocalizationsDelegate` example is included in:
 
 - `example/lib/khmer_localizations.dart`
 - `example/lib/main.dart`
+
+```dart
+localizationsDelegates: const [
+  KhmerLocalizations.delegate,
+]
+```
 
 ## Notes
 

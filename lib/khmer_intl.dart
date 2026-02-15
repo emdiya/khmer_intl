@@ -2,6 +2,7 @@ export 'src/digits/khmer_digits.dart';
 export 'src/number/khmer_number_format.dart';
 export 'src/number/khmer_compact_number_format.dart';
 export 'src/number/khmer_percent_format.dart';
+export 'src/number/khmer_number_words.dart';
 export 'src/date/khmer_date_format.dart';
 export 'src/date/khmer_date_presets.dart';
 export 'src/time/khmer_relative_time.dart';

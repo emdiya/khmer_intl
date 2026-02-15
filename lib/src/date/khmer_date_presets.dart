@@ -3,4 +3,6 @@ class KhmerDatePatterns {
   static const mediumDate = 'dd MMM yyyy';
   static const fullDate = 'EEEE dd MMMM yyyy';
   static const fullDateTime = 'EEEE dd MMMM yyyy HH:mm:ss';
+  static const dateTime = 'dd/MM/yyyy HH:mm:ss';
+  static const time = 'HH:mm:ss';
 }
