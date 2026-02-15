@@ -1,0 +1,56 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format follows Keep a Changelog style and is adapted for pub.dev package releases.
+
+## 0.1.0 - 2026-02-15
+
+### Added
+
+- Core digit conversion:
+  - `toKhmerDigits(String)`
+  - `toLatinDigits(String)`
+- Number formatting:
+  - `KhmerNumberFormat.decimal(...)`
+  - `KhmerNumberFormat.currencyKHR(...)`
+  - `KhmerCompactNumberFormat`
+  - `KhmerPercentFormat`
+- Date formatting:
+  - `KhmerDateFormat(pattern, ...)`
+  - Presets: `shortDate`, `mediumDate`, `fullDate`, `fullDateTime`
+  - Khmer month/weekday data and Buddhist Era support
+- Extensions:
+  - `int.toKhmerDigits()`
+  - `String.toKhmerDigits()`
+  - `String.toLatinDigits()`
+  - `num.toKhmerCurrency(...)`
+  - `num.toKhmerCompact(...)`
+  - `num.toKhmerPercent(...)`
+  - `DateTime.toKhmerDate(...)`
+  - `DateTime.toKhmerRelativeTime(...)`
+- Relative time helper:
+  - `KhmerRelativeTime.format(...)`
+- Plural helper:
+  - `khmerPlural(...)`
+- Khmer lunar date model (approximate):
+  - `KhmerLunarDate.fromGregorian(...)`
+- Example app enhancements:
+  - Expanded demo UI covering all major features
+  - Example Khmer `LocalizationsDelegate`
+- Documentation improvements:
+  - Updated main `README.md` for pub.dev
+  - Added detailed `example/README.md` guide with demo code and sample results
+  - Added screenshot previews
+
+### Changed
+
+- Migrated from template scaffold files to package-focused API surface.
+- Replaced default tests with feature-oriented tests.
+- Updated lint configuration for pure Dart package workflow.
+
+### Fixed
+
+- Resolved invalid number-format subclassing issues.
+- Fixed extension recursion/namespace collisions.
+- Corrected analyzer/test issues across package and example.
