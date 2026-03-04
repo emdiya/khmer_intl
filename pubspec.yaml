@@ -1,6 +1,6 @@
 name: khmer_intl
 description: "Khmer (km) internationalization helpers for Flutter/Dart: Khmer digits, date, currency and locale utilities."
-version: 0.1.1
+version: 0.2.0
 repository: https://github.com/emdiya/khmer_intl.git
 homepage: https://github.com/emdiya/khmer_intl
 issue_tracker: https://github.com/emdiya/khmer_intl/issues
@@ -24,6 +24,7 @@ environment:
 
 dependencies:
   intl: ^0.20.0
+  khmer_lunar_chhankitek: ^1.0.0
 
 dev_dependencies:
   test: ^1.25.0

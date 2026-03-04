@@ -2,7 +2,7 @@
 
 Khmer (`km`) internationalization helpers for Dart and Flutter.
 
-`khmer_intl` gives you Khmer-friendly formatting utilities for digits, numbers, currency, dates, relative time, plural selection, and an approximate lunar date model.
+`khmer_intl` gives you Khmer-friendly formatting utilities for digits, numbers, currency, dates, relative time, plural selection, and Khmer lunar support via [`khmer_lunar_chhankitek: ^1.0.0`](https://pub.dev/packages/khmer_lunar_chhankitek/versions/1.0.0).
 
 ## Preview
 
@@ -25,7 +25,7 @@ Khmer (`km`) internationalization helpers for Dart and Flutter.
 - Khmer relative time (e.g. `២ ម៉ោងមុន`)
 - Simple plural helper
 - Structured plural helper with templates (`KhmerPlural.of`)
-- Approximate Khmer lunar date model
+- Chhankitek lunar integration via `khmer_lunar_chhankitek`
 - Number-to-Khmer words conversion (`1250` -> `មួយពាន់ពីររយហាសិប`)
 - Extension methods for `int`, `num`, `String`, and `DateTime`
 
@@ -35,6 +35,8 @@ Khmer (`km`) internationalization helpers for Dart and Flutter.
 dependencies:
   khmer_intl: ^0.1.1
 ```
+
+`khmer_lunar_chhankitek` is already integrated as a dependency of `khmer_intl`, so users can install only `khmer_intl` and use lunar APIs through `KhmerChhankitek`.
 
 Then run:
 
@@ -104,6 +106,17 @@ KhmerDateFormat.dateTime(useKhmerDigits: true).format(DateTime.now());
 KhmerDateFormat.time(useKhmerDigits: true).format(DateTime.now());
 ```
 
+Khmer date (Chhankitek):
+
+```dart
+final date = DateTime(2026, 4, 16);
+final khmerDate = KhmerChhankitek.formatKhmerGregorianDate(date);
+final lunarDate = KhmerChhankitek.toKhmerLunarDate(date);
+
+print(khmerDate); // ថ្ងៃទី១៦ ខែមេសា ឆ្នាំ២០២៦
+print(lunarDate.toString());
+```
+
 ### Relative Time
 
 ```dart
@@ -150,11 +163,137 @@ numberToKhmerWords(1250);
 // មួយពាន់ពីររយហាសិប
 ```
 
-### Lunar Date (Approximate)
+### Chhankitek Lunar Date (Integrated)
 
 ```dart
-final lunar = KhmerLunarDate.fromGregorian(DateTime.now());
-print(lunar);
+final date = DateTime(2026, 4, 16);
+
+final lunarDate = KhmerChhankitek.toKhmerLunarDate(date);
+final lunarDay = KhmerChhankitek.day(date);
+final monthDays = KhmerChhankitek.month(date.year, date.month);
+
+print(lunarDate.toString());
+print(KhmerChhankitek.formatKhmerGregorianDate(date));
+print('Uposatha: ${lunarDay.isUposatha}');
+print('Days this month: ${monthDays.length}');
+
+final isSil = KhmerChhankitek.isSilDay(date);
+final isKor = KhmerChhankitek.isKorDay(date);
+
+print('ថ្ងៃសីល: $isSil');
+print('ថ្ងៃកោរ: $isKor');
+print(
+  '${KhmerChhankitek.formatKhmerGregorianDate(date)} ជា'
+  '${isSil ? 'ថ្ងៃសីល' : (isKor ? 'ថ្ងៃកោរ' : 'ថ្ងៃធម្មតា')}',
+);
+```
+
+Demo output:
+
+```text
+ថ្ងៃព្រហស្បតិ៍ ១៤រោច ខែចេត្រ ឆ្នាំមមីរ អដ្ឋស័ក ព.ស.២៥៦៩
+ថ្ងៃទី១៦ ខែមេសា ឆ្នាំ២០២៦
+Uposatha: false
+Days this month: 30
+ថ្ងៃសីល: true
+ថ្ងៃកោរ: false
+ថ្ងៃទី១៦ ខែមេសា ឆ្នាំ២០២៦ ជាថ្ងៃសីល
+```
+
+Full source example:
+
+```dart
+import 'package:khmer_intl/khmer_intl.dart';
+
+void main() {
+  // Part 1: Today
+  final now = DateTime.now();
+  final today = KhmerChhankitek.day(now);
+  final todayMonthDays = KhmerChhankitek.month(
+    today.date.year,
+    today.date.month,
+  );
+  final todayKhmerDate = KhmerChhankitek.toKhmerLunarDate(now);
+
+  print('=== Today ===');
+  print(todayKhmerDate.toString());
+  print(KhmerChhankitek.formatKhmerGregorianDate(now));
+  print('Uposatha: ${today.isUposatha}');
+  print('Days this month: ${todayMonthDays.length}');
+  final todayIsSil = KhmerChhankitek.isSilDay(now);
+  final todayIsKor = KhmerChhankitek.isKorDay(now);
+  print('ថ្ងៃសីល: $todayIsSil');
+  print('ថ្ងៃកោរ: $todayIsKor');
+  print(
+    '${KhmerChhankitek.formatKhmerGregorianDate(now)} ជា'
+    '${todayIsSil ? 'ថ្ងៃសីល' : (todayIsKor ? 'ថ្ងៃកោរ' : 'ថ្ងៃធម្មតា')}',
+  );
+
+  // Part 2: Specific day
+  final specificDate = DateTime(2026, 5, 31);
+  final specificDay = KhmerChhankitek.day(specificDate);
+  final specificMonthDays = KhmerChhankitek.month(
+    specificDay.date.year,
+    specificDay.date.month,
+  );
+  final specificKhmerDate = KhmerChhankitek.toKhmerLunarDate(specificDate);
+
+  print('=== Specific Day (2026-05-31) ===');
+  print(specificKhmerDate.toString());
+  print(KhmerChhankitek.formatKhmerGregorianDate(specificDate));
+  print('Uposatha: ${specificDay.isUposatha}');
+  print('Days this month: ${specificMonthDays.length}');
+  final specificIsSil = KhmerChhankitek.isSilDay(specificDate);
+  final specificIsKor = KhmerChhankitek.isKorDay(specificDate);
+  print('ថ្ងៃសីល: $specificIsSil');
+  print('ថ្ងៃកោរ: $specificIsKor');
+  print(
+    '${KhmerChhankitek.formatKhmerGregorianDate(specificDate)} ជា'
+    '${specificIsSil ? 'ថ្ងៃសីល' : (specificIsKor ? 'ថ្ងៃកោរ' : 'ថ្ងៃធម្មតា')}',
+  );
+}
+```
+
+Khmer New Year helper:
+
+```dart
+final ny = KhmerChhankitek.khmerNewYearByGregorianYear(2026);
+print('hour: ${ny.timeOfNewYear.hour}');
+print('minute: ${ny.timeOfNewYear.minute}');
+print('dayLerngSak: ${ny.dayLerngSak}');
+```
+
+Demo output:
+
+```text
+hour: 10
+minute: 48
+dayLerngSak: 3
+```
+
+Formatting helpers:
+
+```dart
+KhmerChhankitek.toKhmerDigits(123); // ១២៣
+KhmerChhankitek.formatKhmerGregorianDate(date);
+KhmerChhankitek.formatIsoDate(date); // 2026-04-16
+KhmerChhankitek.formatIsoDateTime(date); // 2026-04-16 00:00:00
+```
+
+### Lunar API Comparison
+
+Use `KhmerChhankitek` when you need Khmer lunar engine features:
+
+- Source: `khmer_lunar_chhankitek` integration
+- Best for: `day/month/year`, `isSilDay/isKorDay`, Khmer New Year, Khmer date formatting helpers
+- Range: `1900..2100` for day/year APIs
+- Accuracy: engine-backed (recommended for production lunar calculations)
+
+```dart
+final date = DateTime(2026, 4, 16);
+final day = KhmerChhankitek.day(date);
+final isSil = KhmerChhankitek.isSilDay(date);
+final ny = KhmerChhankitek.khmerNewYearByGregorianYear(2026);
 ```
 
 ## Core APIs
@@ -192,6 +331,13 @@ print(lunar);
 - `num.toKhmerPercent(...)`
 - `DateTime.toKhmerDate(...)`
 - `DateTime.toKhmerRelativeTime(...)`
+- `DateTime.toKhmerChhankitekLunarDate()`
+- `DateTime.toKhmerChhankitekLunarDay(...)`
+- `DateTime.isKhmerChhankitekSilDay(...)`
+- `DateTime.isKhmerChhankitekKorDay(...)`
+- `DateTime.toKhmerChhankitekGregorianDate()`
+- `DateTime.toKhmerChhankitekIsoDate()`
+- `DateTime.toKhmerChhankitekIsoDateTime()`
 
 ## Flutter LocalizationsDelegate
 
@@ -208,7 +354,7 @@ localizationsDelegates: const [
 
 ## Notes
 
-- Khmer lunar support is currently **approximate** (starter implementation).
+- Chhankitek lunar support range is `1900..2100` for day/year APIs.
 - Compact/percent styles are designed to be practical and lightweight.
 
 ## Testing

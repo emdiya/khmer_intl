@@ -217,16 +217,16 @@ Plural: មានទំនិញ 2 មុខ
 KhmerPlural.of(): 2 ឯកតា
 ```
 
-### 9) Lunar Date (Approximate)
+### 9) Lunar Date (Chhankitek)
 
 ```dart
-final lunar = KhmerLunarDate.fromGregorian(now).toString().toKhmerDigits();
+final lunar = KhmerChhankitek.toKhmerLunarDate(now).toString();
 ```
 
 Result:
 
 ```text
-Lunar (approx): ១៣ កើត ខែមិគសិរ ឆ្នាំថោះ ព.ស. ២៥៦៩
+Lunar (chhankitek): ថ្ងៃ... ... ខែ... ឆ្នាំ... ... ព.ស....
 ```
 
 ### 10) Number to Khmer Words
@@ -249,5 +249,5 @@ Result:
 
 ## Notes
 
-- Lunar date output is currently approximate.
+- Lunar date output uses `khmer_lunar_chhankitek`.
 - Output examples can vary by current date/time.

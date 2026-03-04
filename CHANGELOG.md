@@ -4,6 +4,53 @@ All notable changes to this project will be documented in this file.
 
 The format follows Keep a Changelog style and is adapted for pub.dev package releases.
 
+## 0.2.0 - 2026-03-04
+
+### Added
+
+- Integrated `khmer_lunar_chhankitek: ^1.0.0` as a direct dependency.
+- New Chhankitek bridge API:
+  - `KhmerChhankitek.day(...)`
+  - `KhmerChhankitek.month(...)`
+  - `KhmerChhankitek.year(...)`
+  - `KhmerChhankitek.isSilDay(...)`
+  - `KhmerChhankitek.isKorDay(...)`
+  - `KhmerChhankitek.toKhmerLunarDate(...)`
+  - `KhmerChhankitek.khmerNewYearByJsYear(...)`
+  - `KhmerChhankitek.khmerNewYearByGregorianYear(...)`
+  - `KhmerChhankitek.formatKhmerGregorianDate(...)`
+  - `KhmerChhankitek.formatIsoDate(...)`
+  - `KhmerChhankitek.formatIsoDateTime(...)`
+  - `KhmerChhankitek.toKhmerDigits(...)`
+- New `DateTime` extensions for Chhankitek integration:
+  - `toKhmerChhankitekLunarDate()`
+  - `toKhmerChhankitekLunarDay(...)`
+  - `isKhmerChhankitekSilDay(...)`
+  - `isKhmerChhankitekKorDay(...)`
+  - `toKhmerChhankitekGregorianDate()`
+  - `toKhmerChhankitekIsoDate()`
+  - `toKhmerChhankitekIsoDateTime()`
+- New/updated tests covering Chhankitek bridge APIs and extensions.
+
+### Changed
+
+- Public lunar API now centers on `KhmerChhankitek` (engine-backed) for Khmer date and lunar features.
+- Example app date/lunar presentation updated to use Chhankitek-based outputs.
+- Main and example README files updated with integrated usage, demo source code, and demo outputs.
+
+### Removed
+
+- Removed approximate lunar model:
+  - Deleted `lib/src/lunar/khmer_lunar_calendar.dart`
+  - Removed `KhmerLunarDate.fromGregorian(...)` from public exports
+
+### Breaking
+
+- `KhmerLunarDate` and `KhmerLunarDate.fromGregorian(...)` are no longer available.
+- Migrate to:
+  - `KhmerChhankitek.toKhmerLunarDate(...)` for formatted Khmer lunar date
+  - `KhmerChhankitek.day/month/year/isSilDay/isKorDay(...)` for engine-backed lunar calculations
+
 ## 0.1.1 - 2026-02-15
 
 ### Added

@@ -63,17 +63,8 @@ class _DemoPageState extends State<DemoPage> {
     final now = DateTime.now();
 
     // Date examples
-    final dateKhmerBE = now.toKhmerDate(
-      pattern: 'EEE dd MMMM yyyy',
-      buddhistEra: true,
-      useKhmerDigits: true,
-    );
-
-    final dateKhmerAD = now.toKhmerDate(
-      pattern: 'EEE dd MMMM yyyy',
-      buddhistEra: false,
-      useKhmerDigits: true,
-    );
+    final dateKhmerChhankitek = KhmerChhankitek.formatKhmerGregorianDate(now);
+    final lunarChhankitek = KhmerChhankitek.toKhmerLunarDate(now).toString();
 
     final dateNumeric = now.toKhmerDate(
       pattern: 'dd/MM/yyyy',
@@ -151,8 +142,6 @@ class _DemoPageState extends State<DemoPage> {
       other: '{count} ឯកតា',
     );
     final numberWords = 1250.toKhmerWords();
-    final lunar = KhmerLunarDate.fromGregorian(now).toString().toKhmerDigits();
-
     return Scaffold(
       appBar: AppBar(title: const Text('khmer_intl demo')),
       body: ListView(
@@ -160,12 +149,18 @@ class _DemoPageState extends State<DemoPage> {
         children: [
           _SectionTitle(
             title: 'Date formatting',
-            subtitle: 'Khmer months/weekdays + optional Buddhist Era year',
+            subtitle: 'Khmer date and lunar date via KhmerChhankitek',
           ),
           _InfoCard(
             rows: [
-              _RowItem(label: 'Khmer date (BE)', value: dateKhmerBE),
-              _RowItem(label: 'Khmer date (AD)', value: dateKhmerAD),
+              _RowItem(
+                label: 'Khmer date (chhankitek)',
+                value: dateKhmerChhankitek,
+              ),
+              _RowItem(
+                label: 'Lunar date (chhankitek)',
+                value: lunarChhankitek,
+              ),
               _RowItem(label: 'Numeric (Khmer digits)', value: dateNumeric),
               _RowItem(label: 'Date + time', value: dateTime),
             ],
@@ -258,7 +253,6 @@ class _DemoPageState extends State<DemoPage> {
               _RowItem(label: 'Plural', value: pluralText),
               _RowItem(label: 'KhmerPlural.of()', value: pluralOfText),
               _RowItem(label: '1250 in Khmer words', value: numberWords),
-              _RowItem(label: 'Lunar (approx)', value: lunar),
             ],
           ),
         ],

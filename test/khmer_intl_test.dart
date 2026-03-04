@@ -130,10 +130,48 @@ void main() {
     expect(1250.toKhmerWords(), 'មួយពាន់ពីររយហាសិប');
   });
 
-  test('builds an approximate Khmer lunar date', () {
-    final lunar = KhmerLunarDate.fromGregorian(DateTime(2026, 2, 15));
-    expect(lunar.day, inInclusiveRange(1, 30));
-    expect(lunar.month, isNotEmpty);
-    expect(lunar.isApproximate, isTrue);
+  test('bridges khmer_lunar_chhankitek APIs', () {
+    final date = DateTime(2026, 4, 14);
+    final lunarDate = KhmerChhankitek.toKhmerLunarDate(date);
+    final lunarDay = KhmerChhankitek.day(date);
+
+    expect(lunarDate.lunarMonth, isNotEmpty);
+    expect(lunarDate.lunarYear, isNotEmpty);
+    expect(lunarDay.lunarDay, inInclusiveRange(1, 30));
+  });
+
+  test('provides DateTime extension helpers for chhankitek', () {
+    final date = DateTime(2026, 4, 14);
+    final lunarDate = date.toKhmerChhankitekLunarDate();
+    final lunarDay = date.toKhmerChhankitekLunarDay();
+
+    expect(lunarDate.lunarMonth, isNotEmpty);
+    expect(lunarDay.lunarDay, inInclusiveRange(1, 30));
+  });
+
+  test('supports chhankitek formatting helpers', () {
+    final date = DateTime(2026, 4, 16, 9, 5, 7);
+    expect(KhmerChhankitek.formatIsoDate(date), '2026-04-16');
+    expect(KhmerChhankitek.formatIsoDateTime(date), '2026-04-16 09:05:07');
+    expect(KhmerChhankitek.formatKhmerGregorianDate(date), contains('២០២៦'));
+    expect(KhmerChhankitek.toKhmerDigits(123), '១២៣');
+  });
+
+  test('supports chhankitek new year helper', () {
+    final newYear = KhmerChhankitek.khmerNewYearByGregorianYear(2026);
+    expect(newYear.timeOfNewYear.hour, inInclusiveRange(0, 23));
+    expect(newYear.timeOfNewYear.minute, inInclusiveRange(0, 59));
+    expect(newYear.dayLerngSak, inInclusiveRange(0, 6));
+  });
+
+  test('supports DateTime extension helpers for chhankitek formatting/status',
+      () {
+    final date = DateTime(2026, 4, 16, 9, 5, 7);
+
+    expect(date.toKhmerChhankitekIsoDate(), '2026-04-16');
+    expect(date.toKhmerChhankitekIsoDateTime(), '2026-04-16 09:05:07');
+    expect(date.toKhmerChhankitekGregorianDate(), contains('២០២៦'));
+    expect(date.isKhmerChhankitekSilDay(), isA<bool>());
+    expect(date.isKhmerChhankitekKorDay(), isA<bool>());
   });
 }
