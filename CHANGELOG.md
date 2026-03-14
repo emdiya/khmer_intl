@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format follows Keep a Changelog style and is adapted for pub.dev package releases.
 
+## 0.2.1 - 2026-03-14
+
+### Changed
+
+- Updated `khmer_lunar_chhankitek` dependency from `^1.0.0` to `^1.0.1`.
+- Refreshed example dependency resolution for the new Chhankitek release.
+
 ## 0.2.0 - 2026-03-04
 
 ### Added
